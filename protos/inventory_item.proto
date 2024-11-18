@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package inventory_item;
+
+service InventoryItemService {
+  rpc CreateDiceConfig (CreateDiceConfigRequest) returns (DiceConfigResponse);
+  rpc UpdateDiceConfig (UpdateDiceConfigRequest) returns (DiceConfigResponse);
+  rpc DeleteDiceConfig (DeleteDiceConfigRequest) returns (DeleteResponse);
+
+  rpc CreateEmojiConfig (CreateEmojiConfigRequest) returns (EmojiConfigResponse);
+  rpc UpdateEmojiConfig (UpdateEmojiConfigRequest) returns (EmojiConfigResponse);
+  rpc DeleteEmojiConfig (DeleteEmojiConfigRequest) returns (DeleteResponse);
+
+  rpc CreateFrameConfig (CreateFrameConfigRequest) returns (FrameConfigResponse);
+  rpc UpdateFrameConfig (UpdateFrameConfigRequest) returns (FrameConfigResponse);
+  rpc DeleteFrameConfig (DeleteFrameConfigRequest) returns (DeleteResponse);
+}
+
+message CreateDiceConfigRequest {
+  string name = 1;
+  int32 currencyId = 3;
+  int32 cost = 4;
+}
+
+message UpdateDiceConfigRequest {
+  string id = 1;
+  string name = 2;
+  int32 currencyId = 4;
+  int32 cost = 5;
+}
+
+message DeleteDiceConfigRequest {
+  string id = 1;
+}
+
+message DiceConfig {
+  string id = 1;
+  string name = 2;
+  int32 currencyId = 4;
+  int32 cost = 5;
+}
+
+message FrameConfig {
+  string id = 1;
+  string name = 2;
+  int32 currencyId = 4;
+  int32 cost = 5;
+}
+
+message EmojiConfig {
+  string id = 1;
+  string name = 2;
+  int32 currencyId = 4;
+  int32 cost = 5;
+}
+
+message DiceConfigResponse {
+  DiceConfig data = 1;
+  string code = 2;
+}
+
+message CreateEmojiConfigRequest {
+  string name = 1;
+  int32 currencyId = 3;
+  int32 cost = 4;
+}
+
+message UpdateEmojiConfigRequest {
+  string id = 1;
+  string name = 2;
+  int32 currencyId = 4;
+  int32 cost = 5;
+}
+
+message DeleteEmojiConfigRequest {
+  string id = 1;
+}
+
+message EmojiConfigResponse {
+  EmojiConfig data = 1;
+  string code = 2;
+}
+
+message CreateFrameConfigRequest {
+  string name = 1;
+  int32 currencyId = 3;
+  int32 cost = 4;
+}
+
+message UpdateFrameConfigRequest {
+  string id = 1;
+  string name = 2;
+  int32 currencyId = 4;
+  int32 cost = 5;
+}
+
+message DeleteFrameConfigRequest {
+  string id = 1;
+}
+
+message FrameConfigResponse {
+  FrameConfig data = 1;
+  string code = 2;
+}
+
+message DeleteResponse {
+  message Data {
+    bool success = 1;
+  }
+  string code = 1;  
+  Data data = 2;
+}

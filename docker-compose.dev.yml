@@ -1,0 +1,57 @@
+version: '3'
+name: 'ludo_service'
+services:
+    ludo_auth_service_dev:
+        image: hhmainz23/ludo-auth-service:1.0.0
+        container_name: ludo_auth_service_dev
+        build:
+            context: .
+            target: build-stage
+            dockerfile: ./Dockerfile
+        env_file:
+            - .env
+        command: yarn start:debug
+        volumes:
+            - /app/node_modules
+            - .:/app
+        ports:
+            - 3000:3000
+            - 7100:7100
+            - 9235:9235
+        depends_on:
+            - redis_dev
+        networks:
+            - nesjs-network
+        restart: unless-stopped
+
+    redis_dev:
+        image: redis:alpine
+        container_name: redis_dev
+        ports:
+            - 6379:6379
+        env_file:
+            - .env
+        volumes:
+            - redis:/data
+        networks:
+            - nesjs-network
+
+    redis_commander:
+        container_name: redis_commander
+        image: rediscommander/redis-commander:latest
+        environment:
+            - REDIS_HOSTS=local:redis_dev:6379
+        ports:
+            - 8088:8081
+        networks:
+            - nesjs-network
+        depends_on:
+            - redis_dev
+
+volumes:
+    redis:
+        driver: local
+
+networks:
+    nesjs-network:
+        driver: bridge

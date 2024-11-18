@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package bot_controller;
+
+service BotControllerService {
+  rpc postNotificationToTelegramBot (BotNotify) returns (BotNotifyResponse) {}
+}
+
+message EmptyMessage {}
+
+message BotNotify {
+    string userId = 1;
+    string message = 2;
+    int32 buttons = 3;
+}
+
+message BotNotifyResponse {
+    message Result {
+        string id = 1;
+    }
+
+    int32 result = 1;
+    string msg = 2;
+    Result data = 3;
+}

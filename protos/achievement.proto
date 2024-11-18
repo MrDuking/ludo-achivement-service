@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package achievement;
+
+service AchievementService {
+  rpc GetAllAchievements(EmptyRequest) returns (GetAllAchievementsResponse);
+  rpc CreateAchievement(CreateAchievementRequest) returns (CreateUpdateAchievementResponse);
+  rpc UpdateAchievement(UpdateAchievementRequest) returns (CreateUpdateAchievementResponse);
+  rpc DeleteAchievement(AchievementIdMessage) returns (DeleteAchievementResponse);
+  rpc GetAllAchievementsByUser(GetAllAchievementsByUserRequest) returns (GetAllAchievementsByUserResponse);
+  rpc GetAchievementById(AchievementIdMessage) returns (CreateUpdateAchievementResponse);
+  rpc RecordAchievementsByType(RecordAchievementsRequest) returns (RecordAchievementsResponse);
+}
+
+message EmptyRequest {}
+
+message RecordAchievementsRequest {
+  int32 type = 1;
+  double value = 2;
+  string userId = 3;
+}
+
+message RecordAchievementsResponse {
+  string code = 1;
+}
+
+message GetAllAchievementsByUserRequest {
+  string userId = 1;
+}
+
+message UserAchievement {
+  string _id = 1;
+  string name = 2;
+  string description = 3;
+  int32 type = 4;
+  bool isActive = 5;
+  int32 requirementType = 6;
+  string userId = 7;
+  int32 currentProgress = 8;
+  int64 lastResetDate = 9;
+  repeated UserMilestone milestones = 10;
+}
+
+message UserMilestone {
+  int32 goal = 2;
+  Reward reward = 3;
+  bool rewardCollected = 7;
+  bool isCompleted = 8;
+  int64 completedAt = 9;
+}
+
+message GetAllAchievementsByUserResponse {
+  message Data {
+    repeated UserAchievement achievements = 1;
+  }
+  string code = 1;
+  Data data = 2;
+}
+
+message AchievementIdMessage {
+  string achievementId = 1;
+}
+
+message DeleteAchievementResponse {
+  string message = 1;
+  string code = 2;
+}
+
+message GetAllAchievementsResponse {
+  message Result {
+    repeated Achievement achievements = 2;
+  }
+  int32 statusCode = 1;
+  string code = 2;
+  string message = 3;
+  Result data = 4;
+}
+
+message CreateAchievementRequest {
+  string name = 1;
+  string description = 2;
+  int32 type = 3;
+  int32 requirementType = 4;
+  bool isActive = 5;
+  repeated Milestone milestones = 6;
+}
+
+message UpdateAchievementRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  int32 type = 4;
+  int32 requirementType = 5;
+  bool isActive = 6;
+  repeated Milestone milestones = 7;
+}
+
+message CreateUpdateAchievementResponse {
+  message Data {
+    string _id = 1;
+    string name = 2;
+    string description = 3;
+    int32 type = 4;
+    int32 requirementType = 5;
+    bool isActive = 6; 
+    repeated Milestone milestones = 7;
+  }
+  string code = 1;
+  Data data = 2;
+}
+
+message Achievement {
+  string _id = 1;
+  string name = 2;
+  string description = 3;
+  int32 type = 4;
+  int32 requirementType = 5;
+  bool isActive = 6;  
+  repeated Milestone milestones = 7;
+}
+
+message Milestone {
+  int32 goal = 2;
+  Reward reward = 3;
+}
+
+message Reward {
+  int32 type = 1;
+  int32 value = 2;
+}

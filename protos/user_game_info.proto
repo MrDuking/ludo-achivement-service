@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package user_game_info;
+
+service UserGameInfoService {
+  rpc getUserGameInfo(GetUserGameInfoRequest) returns (UserGameInfoResponse);
+  rpc updateUserGameInfo(UpdateUserGameInfoRequest) returns (UserGameInfoResponse);
+  rpc increaseQuestPointGrpc(UserRequest) returns (QuestPoint) {}
+}
+
+message UserRequest {
+    string userId = 1;
+}
+
+message QuestPoint {
+    message Data {
+        int32 totalQuestPointEarned = 1;
+    }
+    int32 statusCode = 1;
+    string message = 2;
+    string code = 3;
+    Data data = 4;
+}
+
+message GetUserGameInfoRequest {
+  string userId = 1;
+}
+
+message UpdateUserGameInfoRequest {
+  UserGameInfo data = 1;
+}
+
+
+message UserGameInfoResponse {
+  UserGameInfo data = 1;
+  int32 code = 2;
+}
+
+message UserGameInfo {
+  string userId = 1;
+  int32 totalMatchPlayed = 2;
+  int32 totalClassicModeWins = 3;
+  int32 totalRushModeWins = 4;
+  int32 totalBlitzModeWins = 5;
+  int32 totalTwoPlayerWins = 6;
+  int32 totalFourPlayerWins = 7;
+  int32 totalPawnCaptured = 8;
+  int32 totalCoinEarned = 9;
+  int32 totalCoinSpend = 10;
+  int32 totalDiamondEarned = 11;
+  int32 totalDiamondSpend = 12;
+  int32 totalLutonEarned = 13;
+  int32 totalLutonSpend = 14;
+  int32 totalQuestPointEarned = 15;
+  int32 totalAdsWatched = 16;
+  int32 totalReferralPointEarned = 17;
+  int32 totalPremiumReferralPointEarned = 18;
+  int32 totalFriendInvited = 19;
+}

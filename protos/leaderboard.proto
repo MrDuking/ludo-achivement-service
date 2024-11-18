@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package leaderboard;
+service LeaderboardService {
+  rpc GetUserLeagueFromCoinEarn (GetUserLeagueRequest) returns (GetUserLeagueResponse);
+  rpc SubmitUserAllLeaderboards (PostCoinEarnRequest) returns (SubmitAllLeaderboardsResponse);
+}
+
+message GetUserLeagueRequest {
+  int32 coinEarn = 1;
+}
+
+message GetUserLeagueResponse {
+  string league = 1;
+}
+
+message PostCoinEarnRequest {
+  string userId = 1;
+  int32 coinEarn = 2;
+}
+
+message PostCoinEarnResponse {
+  bool success = 1;
+}
+
+message SubmitAllLeaderboardsResponse {
+  bool success = 1;
+  LeaderboardResults results = 2;
+}
+
+message LeaderboardResults {
+  bool daily = 1;
+  bool weekly = 2;
+  bool monthly = 3;
+}
+
+message UserProfile {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  string lastLoginDate = 4;
+  string refCode = 5;
+  string refCodeUpdateTime = 6;
+  string refBy = 7;
+  string refTime = 8;
+  int32 referralPoint = 9;
+  int32 premiumReferralPoint = 10;
+  string sessionId = 11;
+  string countryCode = 12;
+  string lastLoginIP = 13;
+  string createdAt = 14;
+  string avatar = 15;
+  int32 exp = 16;
+  bool isTelegramPremiumUser = 17;
+  string deletedAt = 18;
+  int32 playTime = 19;
+}
