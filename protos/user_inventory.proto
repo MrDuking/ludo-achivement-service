@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package user_inventory;
+
+// The service definition
+service UserInventoryService {
+    // Defines a method to get user inventory for admin purposes
+    rpc getListLogUserInventory (GetUserInventoryLogQuery) returns (PagingUserInventoryLogResponse);
+    rpc getUserInventory (UserIdRequest) returns (GetUserInventoryResponse);
+    rpc addMoney (AddSubtractMoneyRequest) returns (AddSubtractMoneyResponse);
+    rpc subtractMoney (AddSubtractMoneyRequest) returns (AddSubtractMoneyResponse);
+    rpc addItemToUser (AddItemToUserRequest) returns (AddItemToUserResponse);
+    rpc buyItem (BuyItemRequest) returns (AddItemToUserResponse);
+}
+
+message BuyItemRequest {
+    message Item {
+        string id = 1;
+        string name = 2;
+        int32 itemType = 3;
+        int32 cost = 4;
+        int32 currencyId = 5;
+    }
+    string userId = 1;
+    Item item = 2;
+}
+
+message AddItemToUserRequest {
+    string userId = 1;
+    int32 itemId = 2;
+    int32 itemType = 3;
+}
+
+message AddItemToUserResponse {
+    string code = 1;
+    UserItems data = 2;
+}
+
+message UserIdRequest {
+    string userId = 1;
+}
+
+message GetUserInventoryResponse {
+    message Data {
+        repeated UserInventory userInventories = 1;
+        UserItems userItems = 2;
+    }
+    int32 code = 1;
+    Data data = 2;
+}
+
+message UserInventory {
+    string _id = 1;
+    string userId = 2;
+    int32 currencyId = 3;
+    int32 amount = 4;
+}
+
+message UserItem {
+    int32 itemId = 1;
+    bool isActive = 2;
+}
+
+message UserItems {
+    string _id = 1;
+    string userId = 2;
+    repeated UserItem frames = 3;
+    repeated UserItem dices = 4;
+    repeated UserItem emojis = 5;
+}
+
+message GetUserInventoryLogQuery {
+    string userId = 1;
+    string action = 2;
+    int32 take = 3;
+    int32 page = 4;
+}
+
+message PagingUserInventoryLogResponse {
+    message PageDto {
+        repeated UserInventoryLog items = 1;
+        PageMeta meta = 2;
+    }
+
+    int32 statusCode = 1;
+    string code = 2;
+    PageDto data = 3;
+    string message = 4;
+}
+
+message UserInventoryLog {
+    string _id = 1;
+    string userId = 2;
+    int32 currencyId = 3;
+    int32 amount = 4;
+    string action = 5;
+    string actionData = 6; // Added to represent actionData as a string
+    string transactionDate = 7;
+}
+
+message PageMeta {
+    int32 page = 1;
+    int32 take = 2;
+    int32 totalPage = 3;
+    bool hasPreviousPage = 4;
+    bool hasNextPage = 5;
+}
+
+message AddSubtractMoneyRequest {
+    string userId = 1;
+    int32 currencyId = 2;
+    int32 amount = 3;
+}
+
+
+message AddSubtractMoneyResponse {
+    string code = 1;
+    UserInventory data = 2;
+}

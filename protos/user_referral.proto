@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package user_referral;
+
+service UserReferralService {
+  rpc getRef (GetRefQuery) returns (GetRefResponse) {}
+  rpc updateUserRefBy (UpdateUserRefBy) returns (UserReferralResponse) {}
+  rpc recordSolarSystemCommission(RecordSolarSystemCommissionRequest) returns(SolarSystemCommissionLogResponse) {}
+}
+
+message EmptyMessage {}
+
+message GetRefQuery {
+    string userId = 1;
+    int32 server = 2;
+}
+
+message GetRefResponse {
+    int32 statusCode = 1;
+    string code = 2;
+    string message = 3;
+    UserReferral data = 4;
+}
+
+message UpdateUserRefBy {
+    string userId = 1;
+    string name = 2;
+    string avatar = 3;
+    string refBy = 4;
+    bool isTelegramPremiumUser = 5;
+    int64 server = 6;
+}
+
+message UserReferralResponse {
+    int32 statusCode = 1;
+    string message = 2;
+    string code = 3;
+    UserReferral data = 4;
+}
+
+message UserReferral {
+    string userId = 1;
+    string refBy = 2;
+    string name = 3;
+    string avatar = 4;
+    string refTime = 5;
+    int64 server = 6;
+    int64 solarLevel = 7;
+    repeated Currency solarBalance = 8;
+    int64 totalLutonEarnedByInvite = 9;
+    int64 totalPremiumFriendInvited = 10;
+    int64 totalFriendInvited = 11;
+}
+
+message Currency {
+    int32 type = 1;
+    int32 amount = 2;
+}
+
+message CommissionDistribution {
+    string referrerId = 1;
+    int32 commisssionLevel = 2;
+    Currency commissionAmount = 3;
+}
+
+message SolarSystemCommissionLog {
+    string userId = 1;
+    string paymentId = 2;
+    repeated CommissionDistribution commissionDistribution = 3;
+}
+
+message SolarSystemCommissionLogResponse {
+    int32 statusCode = 1;
+    string message = 2;
+    string code = 3;
+    SolarSystemCommissionLog data = 4;
+}
+
+message RecordSolarSystemCommissionRequest {
+    message Commission {
+        int32 type = 1;
+        string amount = 2;
+    }
+    string userId =  1;
+    string paymentId = 2;
+    Commission currency = 3;
+}
